@@ -22,6 +22,8 @@ const Login = () => {
   const[email, setEmail]= useState();
   const [password, setPassword] = useState();
   const toast = useToast();
+  const navigate = useNavigate();
+  
   const submitHandler = async () => {
     if (!email || !password) {
       toast({
@@ -39,7 +41,8 @@ const Login = () => {
           "Content-type": "application/json",
         },
       };  
-      const {data} =await axios.post("http://localhost:4000/api/user/login",{email,password},config);
+      const {data} =await axios.post("http://localhost:4000/api/user/login",{email,password},config)
+      .then()
       toast({
         title:"Login successfully",
         status:"success",
@@ -57,6 +60,7 @@ const Login = () => {
           <FormLabel>Email</FormLabel>
           <Input
             placeholder="Enter your Email"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </FormControl>
@@ -67,6 +71,7 @@ const Login = () => {
             <Input
               type={show ? "text" : "password"}
               placeholder="Enter your Password"
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
             <InputRightElement width="4.5rem">

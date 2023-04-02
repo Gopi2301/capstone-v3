@@ -5,7 +5,7 @@ import { useEffect } from "react";
 const ChatPage = () => {
   const [chats, setChats] = useState([]);
   const fetchChats = async () => {
-    await fetch("http://localhost:4000/api/chat")
+    await fetch("http://localhost:4000/api/user")
       .then((data) => data.json())
       .then((mvs) => setChats(mvs));
   };
