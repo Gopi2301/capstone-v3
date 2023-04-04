@@ -5,6 +5,7 @@ import cors from "cors";
 import * as dotenv from 'dotenv'
 import connectDB from "./config/db.js";
 import userRouters from "./routes/userRoutes.js";
+import chatRouters from "./routes/chatRoutes.js"
 import { errorHandler } from "./middleware/errormiddleware.js";
 import { notFound } from "./middleware/errormiddleware.js";
 
@@ -18,6 +19,7 @@ const PORT = 4000;
 app.use(cors());
 app.use(express.json())
 app.use("/api/user", userRouters)
+app.use("/api/chat", chatRouters)
 app.use(notFound);
 app.use(errorHandler);
 
