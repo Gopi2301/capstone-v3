@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Button, Text, Tooltip, Menu, MenuButton, MenuItem, MenuDivider, MenuList, Avatar, Input, useToast } from '@chakra-ui/react'
+import { Box, Button, Text, Tooltip, Menu, MenuButton, MenuItem, MenuDivider, MenuList, Avatar, Input, useToast, Spinner } from '@chakra-ui/react'
 import { ChevronDownIcon, BellIcon, } from '@chakra-ui/icons'
 import { Drawer, DrawerOverlay, DrawerHeader, useDisclosure, DrawerContent, DrawerBody } from '@chakra-ui/react'
 import SearchIcon from '@mui/icons-material/Search';
@@ -13,7 +13,7 @@ import UserListItem from '../userAvatar/userListItem';
 
 const SideDrawer = () => {
     const toast = useToast()
-    const { user } = ChatState()
+    const { user, setSelectedChat, chats, setChats } = ChatState()
     const [search, setSearch] = useState();
     const [searchResult, setSearchResult] = useState();
     const [loading, setLoading] = useState();
@@ -49,7 +49,6 @@ const SideDrawer = () => {
             const { data } = await axios.get(`http://localhost:4000/api/user?search=${search}`, config)
             setLoading(false);
             setSearchResult(data)
-            console.log({ data })
         } catch {
             toast({
                 title: "Error Occured!",
@@ -61,7 +60,31 @@ const SideDrawer = () => {
         }
     }
 
-    const accessChat = (userId) => { };
+    const accessChat = async (userId) => {
+        try {
+            setLoadingChat(true)
+            const config = {
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: `Bearer ${user.token}`
+                },
+            }
+            const { data } = await axios.post(" http://localhost:4000/api/chat", { userId }, config)
+            if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats])
+            setSelectedChat(data);
+            setLoadingChat(false);
+            onClose();
+        } catch (error) {
+            toast({
+                title: "Error fetching the chat",
+                description: error.message,
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom-left"
+            })
+        }
+    };
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     return (
@@ -113,6 +136,7 @@ const SideDrawer = () => {
                         {loading ? (<ChatLoading />) : (searchResult?.map((user) => (
                             <UserListItem key={user._id} user={user} handleFunction={() => accessChat(user._id)} />
                         )))}
+                        {loadingChat && <Spinner ml="auto" display="flex" />}
                     </DrawerBody>
                 </DrawerContent>
             </Drawer>
