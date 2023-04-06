@@ -13,7 +13,7 @@ const SideDrawer = () => {
     const [result, setResult] = useState();
     const [loading, setLoading] = useState();
     const [loadingChat, setLoadingChat] = useState();
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     // const { setUser } = ChatState()
     // useEffect(() => {
     //     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -21,6 +21,10 @@ const SideDrawer = () => {
 
     //     if (!user) navigate("/")
     // }, [navigate]);
+    const Logout = () => {
+        localStorage.removeItem("userInfo")
+        navigate("/")
+    }
     return (
         <div>
             <Box display='flex' justifyContent='space-between' alignItems='center' bg='white' w="100%" p='5px 10px' borderWidth='5px'>
@@ -39,14 +43,14 @@ const SideDrawer = () => {
                     <Menu>
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                             <Avatar size='sm' cursor='pointer' name={user.name} />
-                            <MenuList>
-                                <ProfileModal>
-                                    {/* <MenuItem>My Profile</MenuItem> */}
-                                </ProfileModal>
-                                <MenuDivider />
-                                <MenuItem>Logout</MenuItem>
-                            </MenuList>
                         </MenuButton>
+                        <MenuList>
+                            <ProfileModal user={user}>
+                                <MenuItem>My Profile</MenuItem>
+                            </ProfileModal>
+                            <MenuDivider />
+                            <MenuItem onClick={Logout}>Logout</MenuItem>
+                        </MenuList>
                     </Menu>
                 </div>
             </Box>
