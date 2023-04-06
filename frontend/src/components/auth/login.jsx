@@ -19,11 +19,11 @@ import { useNavigate } from 'react-router-dom';
 const Login = () => {
   const handleClick = () => setShow(!show);
   const [show, setShow] = React.useState(false);
-  const[email, setEmail]= useState();
+  const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const toast = useToast();
   const navigate = useNavigate();
-  
+
   const submitHandler = async () => {
     if (!email || !password) {
       toast({
@@ -35,23 +35,23 @@ const Login = () => {
       return;
     }
     try {
-      
+
       const config = {
         headers: {
           "Content-type": "application/json",
         },
-      };  
-      const {data} =await axios.post("http://localhost:4000/api/user/login",{email,password},config)
-      .then()
+      };
+      const { data } = await axios.post("http://localhost:4000/api/user/login", { email, password }, config)
+        .then()
       toast({
-        title:"Login successfully",
-        status:"success",
-        duration:5000,
-        isClosable:true
+        title: "Login successfully",
+        status: "success",
+        duration: 5000,
+        isClosable: true
       })
-      localStorage.setItem("userInfo",JSON.stringify(data))
+      localStorage.setItem("userInfo", JSON.stringify(data))
       navigate("/chats")
-    } catch (error) {console.log(error)}
+    } catch (error) { console.log(error) }
   };
   return (
     <div>

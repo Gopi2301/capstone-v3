@@ -43,7 +43,7 @@ const Signup = () => {
 
   const [show, setShow] = React.useState(false);
   const navigate = useNavigate()
-  
+
   const submitHandler = async () => {
     if (!name || !email || !password || !confirmPassword) {
       toast({
@@ -54,39 +54,39 @@ const Signup = () => {
       });
       return;
     }
-    if (password !== confirmPassword){
+    if (password !== confirmPassword) {
       toast({
-        title:"Passwords Does'nt Match",
-        status:"warning",
-        duration:5000,
-        isClosable:true,
+        title: "Passwords Does'nt Match",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
       })
       return;
     }
 
-    try{
-      const config ={
-        headers:{
-          "Content-type":"application/json", 
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
         }
       }
-      const {data}= await axios.post("http://localhost:4000/api/user",{name,email,password,pic},config);
+      const { data } = await axios.post("http://localhost:4000/api/user", { name, email, password, pic }, config);
       toast({
-        title:"Registration Successful",
-        status:"success",
-        duration:5000,
-        isClosable:true,
+        title: "Registration Successful",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
       })
       localStorage.setItem("userInfo", JSON.stringify(data))
       navigate('/chats')
-    } catch (error){
+    } catch (error) {
       console.log(error)
       toast({
-        title:"Error Occured!",
+        title: "Error Occured!",
         description: error.response.data.message,
-        status:"error",
-        duration:5000,
-        isClosable:true,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
       })
     }
   };
@@ -148,7 +148,6 @@ const Signup = () => {
         />
       </FormControl>
       <Button
-        colorScheme="blue"
         width="100%"
         style={{ marginTop: 15 }}
         onClick={submitHandler}
