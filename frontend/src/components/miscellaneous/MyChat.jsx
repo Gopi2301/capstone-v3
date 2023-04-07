@@ -6,6 +6,7 @@ import axios from 'axios'
 import { AddIcon } from '@chakra-ui/icons'
 import ChatLoading from './ChatLoading'
 import { getSender } from '../../config/chatLogic.jsx'
+import GroupChatModel from './GroupChatModel'
 
 const MyChats = () => {
     const [loggedUser, setLoggedUser] = useState()
@@ -21,7 +22,6 @@ const MyChats = () => {
             }
             const { data } = await axios.get("http://localhost:4000/api/chat", config);
             setChats(data)
-            console.log(data)
         } catch (error) {
             toast({
                 title: "Error Occured",
@@ -61,13 +61,15 @@ const MyChats = () => {
                 alignItems="center"
             >
                 My Chats
-                <Button
-                    display="flex"
-                    fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-                    rightIcon={<AddIcon />}
-                >
-
-                </Button>
+                <GroupChatModel>
+                    <Button
+                        display="flex"
+                        fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+                        rightIcon={<AddIcon />}
+                    >
+                        New Group
+                    </Button>
+                </GroupChatModel>
             </Box>
             <Box
                 display="flex"
