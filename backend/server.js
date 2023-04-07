@@ -8,6 +8,8 @@ import userRouters from "./routes/userRoutes.js";
 import { errorHandler } from "./middleware/errormiddleware.js";
 import { notFound } from "./middleware/errormiddleware.js";
 import chatRoutes from "./routes/chatRoutes.js"
+import messageRoutes from "./routes/messageRoutes.js"
+
 dotenv.config()
 
 
@@ -20,6 +22,7 @@ app.use(express.json())
 
 app.use("/api/user", userRouters)
 app.use("/api/chat", chatRoutes);
+app.use("/api/message", messageRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
